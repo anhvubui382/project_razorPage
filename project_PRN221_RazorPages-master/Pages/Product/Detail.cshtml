@@ -1,0 +1,200 @@
+﻿@page "{id:int?}"
+@model WebRazor.Pages.Product.DetailModel
+@{
+    ViewData["PageTitle"] = "Product Details";
+    if (Model.Cart == null || Model.Cart.Count == 0)
+    {
+        ViewData["cartSize"] = 0;
+    }
+    else
+    {
+        ViewData["cartSize"] = Model.Cart.Count;
+    }
+}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    #content-detail {
+        margin: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    #content-title a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    #product {
+        display: flex;
+    }
+
+    #product-name {
+        flex: 2;
+        padding: 0 20px;
+    }
+
+    #product-detail-left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #product-img {
+        margin-bottom: 20px;
+    }
+
+        #product-img img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+    #product-img-items {
+        display: flex;
+        gap: 10px;
+    }
+
+        #product-img-items img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+    #product-detail-right {
+        flex: 1;
+        margin-left: 30px;
+        margin-right:40px;
+    }
+
+    #product-detail-right-content {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #product-price {
+        font-size: 24px;
+        color: #e44d26;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #product-status {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .msg-success,
+    .msg-error {
+        color: #2ecc71;
+    }
+
+    .msg-error {
+        color: #e74c3c;
+    }
+
+    #product-detail-buttons {
+        margin-top: 20px;
+    }
+
+    #product-detail-button input {
+        padding: 10px;
+        margin-right: 10px;
+        background-color: #e44d26;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #info-detail {
+        margin-top: 20px;
+    }
+
+    #info-detail-title {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+        #info-detail-title h2 {
+            margin: 0;
+        }
+
+        #info-detail-title div {
+            margin: 10px auto;
+        }
+</style>
+<div id="content-detail">
+    <div id="content-title">
+        <a href="~/Index">Home</a> >
+        <a href="~/Index?id=@Model.Product.CategoryId">@Model.Product.Category.CategoryName</a> >
+        @Model.Product.ProductName
+    </div>
+    <div id="product">
+        <div id="product-name">
+            <h2>@Model.Product.ProductName</h2>
+            <div id="product-detail">
+                <div id="product-detail-left">
+                    <div id="product-img">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSdq9LeaalIOGwghpv1PsJrbVw4NmL2uo2ebpPy828JwLiGtimHwJpBx0HxOveknulsyY&usqp=CAU" "  />
+                    </div>
+                    <div id="product-img-items">
+                        <div><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSdq9LeaalIOGwghpv1PsJrbVw4NmL2uo2ebpPy828JwLiGtimHwJpBx0HxOveknulsyY&usqp=CAU" "  /></a></div>
+                        <div><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSdq9LeaalIOGwghpv1PsJrbVw4NmL2uo2ebpPy828JwLiGtimHwJpBx0HxOveknulsyY&usqp=CAU" "   /></a></div>
+
+                        <div><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSdq9LeaalIOGwghpv1PsJrbVw4NmL2uo2ebpPy828JwLiGtimHwJpBx0HxOveknulsyY&usqp=CAU" "   /></a></div>
+                        <div><a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSdq9LeaalIOGwghpv1PsJrbVw4NmL2uo2ebpPy828JwLiGtimHwJpBx0HxOveknulsyY&usqp=CAU" "   /></a></div>
+
+                    </div>
+                </div>
+                <div id="product-detail-right">
+                    <div id="product-detail-right-content">
+                        <div id="product-price">$ @Model.Product.UnitPrice</div>
+                        @if (Model.Product.UnitsInStock > 0)
+                        {
+                            <div id="product-status">In stock</div>
+                            <div> <span class="msg-success">@TempData["success"]</span><br /></div>
+                            <div> <span class="msg-error">@TempData["fail"]</span><br /></div>
+                            <div id="product-detail-buttons">
+                                <div id="product-detail-button">
+                                    <a href="/Order/Add/@Model.Product.ProductId">
+                                        <input type="button" value="BUY NOW">
+                                    </a>
+                                    <a href="/Cart/Add/@Model.Product.ProductId">
+                                        <input type="button" value="ADD TO CART" style="background-color: #fff; color:red;border: 1px solid gray;">
+                                    </a>
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="product-status">Not in stock</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="info-detail">
+        <div id="info-detail-title">
+            <h2>Information deltail</h2>
+            <div style="margin:10px auto;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, debitis. Asperiores soluta eveniet eos accusantium doloremque cum suscipit ducimus enim at sapiente mollitia consequuntur dicta quaerat, sunt voluptates autem. Quam!
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem illum autem veritatis maxime corporis quod quibusdam nostrum eaque laborum numquam quos unde eveniet aut, exercitationem voluptatum veniam fugiat, debitis esse?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio eligendi ratione vitae nobis numquam dolorum assumenda saepe enim cumque blanditiis, deleniti neque voluptate vel ducimus in omnis harum aut nisi.
+            </div>
+        </div>
+    </div>
+</div>
