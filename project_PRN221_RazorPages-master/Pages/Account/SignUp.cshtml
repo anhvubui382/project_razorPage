@@ -1,0 +1,145 @@
+﻿@page
+@model WebRazor.Pages.Account.SignUpModel
+@{
+    ViewData["PageTitle"] = "Sign Up";
+}
+
+<style>
+    #form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    #form-title {
+        text-align: center;
+        margin-bottom: 2px;
+    }
+
+        #form-title a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+        }
+
+    #form-content {
+        font-family: 'Arial', sans-serif;
+    }
+
+    label {
+        display: block;
+        margin-top: 4px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 4px;
+        margin-bottom: 2px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: red;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .msg-error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+
+
+</style>
+<div id="form">
+    <div id="form-title">
+        <span><a href="~/Account/SignUp" style="color: red;">SIGN UP</a></span>
+        <span><a href="~/Account/Login">SIGN IN</a></span>
+    </div>
+    <div id="form-content">
+        <span class="msg-error">@ViewData["msg"]</span><br />
+
+        <form method="post" asp-validation-summary="All" onsubmit="return validateEmail()">
+            <input asp-for="Customer.CustomerId" value="1" type="hidden" /><br />
+
+            <label>Company name<span style="color: red;">*</span></label><br />
+            <input asp-for="Customer.CompanyName" type="text" required />
+            <span class="msg-error" asp-validation-for="Customer.CompanyName"></span><br />
+
+            <label>Contact name<span style="color: red;">*</span></label><br />
+            <input asp-for="Customer.ContactName" type="text" required />
+            <span class="msg-error" asp-validation-for="Customer.ContactName"></span><br />
+
+            <label>Contact title<span style="color: red;">*</span></label><br />
+            <input asp-for="Customer.ContactTitle" type="text" required />
+            <span class="msg-error" asp-validation-for="Customer.ContactTitle"></span><br />
+
+            <label>Address<span style="color: red;">*</span></label><br />
+            <input asp-for="Customer.Address" type="text" required />
+            <span class="msg-error" asp-validation-for="Customer.Address"></span><br />
+
+            <label>Email<span style="color: red;">*</span></label><br />
+            <input id="Account_Email" asp-for="Account.Email" type="text" required />
+            <span class="msg-error" asp-validation-for="Account.Email"></span><br />
+
+            <label>Password<span style="color: red;">*</span></label><br />
+            <input asp-for="Account.Password" type="password" required />
+            <span class="msg-error" asp-validation-for="Account.Password"></span><br />
+
+            <label>Re-Password<span style="color: red;">*</span></label><br />
+            <input asp-for="RePassword" type="password" required />
+            <span class="msg-error">@ViewData["msg-repassword"]</span><br />
+
+            <div></div>
+            <button style="margin-left: 100px" type="submit">SIGN UP</button>
+        </form>
+    </div>
+</div>
+<script>
+    function validateEmail() {
+        var email = document.getElementById("Account_Email").value;
+        var emailRegex = /.com\.vn$/;
+
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address with the 'com.vn' domain.");
+            return false; // Prevent form submission
+        }
+
+        // Validate company name
+        var companyName = document.getElementById("Customer_CompanyName").value;
+        if (!/^[a-zA-Z\s]*$/.test(companyName)) {
+            alert("Company name should only contain letters and spaces.");
+            return false;
+        }
+
+        // Validate contact name
+        var contactName = document.getElementById("Customer_ContactName").value;
+        if (!/^[a-zA-Z\s]*$/.test(contactName)) {
+            alert("Contact name should only contain letters and spaces.");
+            return false;
+        }
+
+        // Validate password
+        var password = document.getElementById("Account_Password").value;
+        if (password.length < 8) {
+            alert("Password must be at least 8 characters long.");
+            return false;
+        }
+
+        // You can add more validation rules as needed
+
+        return true; // Allow form submission
+    }
+</script>

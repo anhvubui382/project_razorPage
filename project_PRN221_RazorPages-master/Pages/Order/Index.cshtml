@@ -1,0 +1,147 @@
+﻿@page
+@model WebRazor.Pages.Order.IndexModel
+
+<style>
+    /* Add your global styles here */
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    #content-left {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+        font-weight: normal;
+        color: #333;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+    a {
+        text-decoration: none;
+        color: #3498db;
+    }
+
+    #content-right {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .path {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .content-main {
+        /* Add additional styling if needed */
+    }
+
+    .profile-order-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .profile-order-title-left {
+        /* Adjust styles as needed */
+    }
+
+    .profile-order-title-right {
+        /* Adjust styles as needed */
+    }
+
+    .profile-order-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .profile-order-content-col1 {
+        /* Adjust styles as needed */
+    }
+
+    .profile-order-content-col2,
+    .profile-order-content-col3,
+    .profile-order-content-col4 {
+        flex-grow: 1;
+        /* Adjust styles as needed */
+    }
+</style>
+
+<div id="content-left">
+    <h3>Welcome</h3>
+    <h3>Account Management</h3>
+    <ul>
+        <a href="~/Account/Profile">
+        <li>Personal information</li>
+        </a>
+    </ul>
+    <h3>My order</h3>
+    <ul>
+        <a href="~/Order">
+        <li>All orders</li>
+        </a>
+        <a href="#">
+        <li>Canceled order</li>
+        </a>
+    </ul>
+</div>
+
+<div id="content-right">
+    <div class="path">LIST ORDERS</div>
+    <div class="content-main">
+        <div id="profile-content-order">
+            @foreach (var order in Model.Auth.Customer.Orders)
+            {
+                <div>
+                    <div class="profile-order-title">
+                        <div class="profile-order-title-left">
+                            <div>Order creation date: @order.OrderDate</div>
+                            <div>Order: <a href="#">#@order.OrderId</a></div>
+                        </div>
+                        <div class="profile-order-title-right">
+                            <span>Pending</span>
+                        </div>
+                    </div>
+
+                    @foreach (var item in order.OrderDetails)
+                    {
+                        <div class="profile-order-content">
+                            <div class="profile-order-content-col1">
+                                <!-- Placeholder content or additional details can be added here -->
+                                <a href="~/Product/Detail/@item.ProductId"><img style="margin:10px" src="data:image/jpeg;base64,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" width="100%" /></a>
+
+                            </div>
+                            <div class="profile-order-content-col2" style="margin-left:50px; font-size:23px; font-weight:bold">@item.Product.ProductName</div>
+                            <div class="profile-order-content-col3">Quantity: @item.Quantity</div>
+                            <div class="profile-order-content-col4">@item.UnitPrice $</div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
